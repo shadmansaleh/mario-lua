@@ -4,7 +4,8 @@
 
 WINDOW_WIDTH, WINDOW_HEIGHT = love.graphics.getDimensions() --1280, 720
 
-VIRTUAL_WIDTH, VIRTUAL_HEIGHT = 432, 243
+--VIRTUAL_WIDTH, VIRTUAL_HEIGHT = 432, 243
+VIRTUAL_WIDTH, VIRTUAL_HEIGHT = math.floor(WINDOW_WIDTH * 243 / WINDOW_HEIGHT), 243
 
 android = love.system.getOS() == "Android"
 
@@ -64,7 +65,10 @@ function love.draw()
 -- Start push library management
 	push:apply("start")
 -- clear screen with background blue color
-	love.graphics.clear(100 / 255, 140 / 255, 1, 1)
+	--love.graphics.clear(100 / 255, 140 / 255, 1, 1)
+	love.graphics.setColor(100 / 255, 140 / 255, 1, 1)
+	love.graphics.rectangle("fill", 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT)
+	love.graphics.setColor(1, 1, 1, 1)
 -- render the map
 	map:render()
 	if android then

@@ -15,7 +15,7 @@ function Map:init()
 	self.tileWidth = 16
 	self.tileHeight = 16
 	-- how many tiles the map has
-	self.mapWidth = 30
+	self.mapWidth = 30 * 3
 	self.mapHeight = 28
 	-- pixels size of map
 	self.mapWidthPixels = self.mapWidth * self.tileWidth

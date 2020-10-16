@@ -38,8 +38,8 @@ function Joystick:init()
 			self.pressed = false
 		end,
 		-- onClick function
-		onClick = function(self)
-			self.pressed = true
+		onClick = function(args)
+			args.pressed = true
 			-- go left
 			g_JoyKey = g_JoyKey .. 'a'
 		end
@@ -59,8 +59,8 @@ function Joystick:init()
 		})
 			self.pressed = false
 		end,
-		onClick = function(self)
-			self.pressed = true
+		onClick = function(args)
+			args.pressed = true
 			g_JoyKey = g_JoyKey .. 'd'
 		end
 })	
@@ -80,8 +80,8 @@ function Joystick:init()
 		})
 			self.pressed = false
 		end,
-		onClick = function(self)
-			self.pressed = true
+		onClick = function(args)
+			args.pressed = true
 			g_JoyKey = g_JoyKey .. 'w'
 		end
 })	
@@ -100,8 +100,8 @@ function Joystick:init()
 		})
 			self.pressed = false
 		end,
-		onClick = function(self)
-			self.pressed = true
+		onClick = function(args)
+			args.pressed = true
 			g_JoyKey = g_JoyKey .. 's'
 		end
 })	

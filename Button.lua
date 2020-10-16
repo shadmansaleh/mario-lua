@@ -50,12 +50,14 @@ function Button:init(arg_dict)
 
 	self.args = arg_dict
 	self.was_updated = true
+	--self.winX, self.winY = 0, 0 --love.window.getPosition()
 end
 
 function Button:render()
 	-- use custom draw if it was provided
 	if self.args.draw ~= nil then
 		self.args.draw(self.args)
+		--love.graphics.print(self.winX..' '..self.winY)
 	else	
 		-- check if the button is visible
 		-- hide the buttun if button was not checked for pressed
@@ -154,10 +156,10 @@ function Button:mousePressed(onClick)
 		-- run onClick()
 		else
 			if self.args.onClick ~= nil then
-				self.args.onClick()
+				self.args.onClick(self.args)
 			end
 			if onClick ~= nil then
-				onClick()
+				onClick(self.args)
 			end
 			return true
 		end
