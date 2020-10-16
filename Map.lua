@@ -6,7 +6,22 @@ Map = Class{}
 local TILE_BRICK = 1
 local TILE_EMPTY = 4
 
-local SCROLL_SPEED = 62
+-- cloud tile
+local CLOUD_LEFT = 6
+local CLOUD_RIGHT = 7
+
+-- bush tile
+local BUSH_LEFT = 2
+local BUSH_RIGHT = 3
+
+-- musroom tile
+local MUSHROOM_TOP = 10 
+local MUSHROOM_BOTTOM = 11
+
+-- jump block
+local JUMP_BLOCK = 5
+
+local SCROLL_SPEED = 150 --62
 
 function Map:init()
 	-- load spritesheet
@@ -31,17 +46,64 @@ function Map:init()
 	)
 
 	-- Fill map with empty tiles
-	for y = 1, self.mapHeight / 2 do
+--[[	for y = 1, self.mapHeight / 2 do
 		for x = 1, self.mapWidth do
 			-- sets the self.tiles variable
 			self:setTile(x, y, TILE_EMPTY)
 		end
 	end
-	-- Fill bottom half with bricks
-	for y = self.mapHeight / 2, self.mapHeight do
-		for x = 1, self.mapWidth do
-			self:setTile(x, y, TILE_BRICK)
+--]]
+	-- begin genarating map with vertical scans
+	local x = 1
+	while x < self.mapWidth do
+		-- 2% chsnce to genarate cloud 
+		-- make sure we are 2 tiles from the edge atlest
+		if x < self.mapWidth - 2 then
+			if math.random(20) == 1 then
+				-- random cloud height 
+				local cloudStart = math.random(self.mapHeight / 2 - 6)
+				if self:getTile(x, cloudStart) == TILE_EMPTY
+					and self:getTile(x, cloudStart + 1) == TILE_EMPTY then
+					self:setTile(x, cloudStart, CLOUD_LEFT)
+					self:setTile(x + 1, cloudStart, CLOUD_RIGHT)	
+				end
+			end
 		end
+
+		-- 5% chsnce to genarate mushroom
+		-- make sure we are 2 tiles from the edge atlest
+		if math.random(20) == 1 then
+			-- random cloud height 
+			self:setTile(x, self.mapHeight / 2 - 2, MUSHROOM_TOP)
+			self:setTile(x, self.mapHeight / 2 - 1, MUSHROOM_BOTTOM)
+		-- 10% chsnce to genarate bush 
+		-- make sure we are 3 tiles from the edge atlest
+
+		elseif x < self.mapWidth - 3 then
+			if math.random(10) == 1 then
+				-- random cloud height 
+				local bushLavel = self.mapHeight / 2 - 1
+				if self:getTile(x, bushLavel) == TILE_EMPTY
+					and self:getTile(x + 1, bushLavel) == TILE_EMPTY then
+					self:setTile(x, bushLavel, BUSH_LEFT)
+					self:setTile(x + 1, bushLavel, BUSH_RIGHT)	
+				end
+			end
+		end
+		-- chance to genarate jump block
+		if math.random(35) == 1 then
+			self:setTile(x, self.mapHeight / 2 - 4, JUMP_BLOCK)
+		end
+
+		-- Fill bottom half with bricks
+		for y = self.mapHeight / 2, self.mapHeight do
+			for x = 1, self.mapWidth do
+				self:setTile(x, y, TILE_BRICK)
+			end
+		end		
+		
+		-- increment x
+		x = x + 1
 	end
 end
 
@@ -53,6 +115,9 @@ end
 function Map:getTile(x , y)
 	-- Returns the tiles index in self.spriteSheet for (x, y)
 	-- used for drawing
+	if self.tiles[(y - 1) * self.mapWidth + x] == nil then
+		return TILE_EMPTY
+	end
 	return self.tiles[(y - 1) * self.mapWidth + x]
 end
 

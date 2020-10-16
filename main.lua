@@ -27,6 +27,7 @@ end
 --  Initialize the game  --
 ---------------------------
 love.graphics.setDefaultFilter('nearest', 'nearest')
+math.randomseed(os.time())
 
 function love.load()
 --Create map instance
